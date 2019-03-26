@@ -1,6 +1,6 @@
 {
   "name": "vue-wechat-authorize",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "基于vue开发的微信单页应用授权插件",
   "author": "weimingxuan <793270445@qq.com>",
   "main": "./index.js",
