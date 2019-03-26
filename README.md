@@ -1,4 +1,4 @@
-# vue-wechat-auth
+# vue-wechat-authorize
 > 基于vue开发的微信单页应用授权插件
 
 ## 依赖
@@ -11,13 +11,13 @@
 npm i vue-wechat-authorize
 ```
 
-### 2.引入vue-wechat-auth
+### 2.引入vue-wechat-authorize
 
 ``` javascript
 
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import WechatAuth from 'vue-wechat-auth'
+import WechatAuth from 'vue-wechat-authorize'
 import axios from 'axios'
 
 // 路由配置
