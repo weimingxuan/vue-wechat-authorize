@@ -1,23 +1,26 @@
 /**
  * ------------------------------------------------------------------
  * 微信授权
- * @author SongJinDa <310676645@qq.com>
- * @date 17/3/26
+ * @author weimingxuan <793270445@qq.com>
+ * @date 2019/3/26
  * ------------------------------------------------------------------
  */
 
 class WeChatAuth {
-  constructor (config) {
+  constructor(config) {
     let defaultConfig = {
       appid: '',
       responseType: 'code',
       scope: 'snsapi_base ',
-      getCodeCallback: () => {}
+      getCodeCallback: () => { }
     }
     this.config = Object.assign(defaultConfig, config)
   }
 
-  openAuthPage (redirectUri = encodeURIComponent(window.location.href)) {
+  openAuthPage(redirectUri = window.location.href) {
+    let redirectUriArr = redirectUri.split('#')
+    window.sessionStorage.setItem('redirect_path', redirectUriArr[1])
+    redirectUri = encodeURIComponent(redirectUriArr[0])
     this.removeAccessToken()
     this.removeAuthCode()
     let authPageBaseUri = 'https://open.weixin.qq.com/connect/oauth2/authorize'
@@ -25,23 +28,23 @@ class WeChatAuth {
     window.location.href = authPageBaseUri + authParams
   }
 
-  setAuthCode (code) {
+  setAuthCode(code) {
     if (!code) return false
     window.sessionStorage.setItem('auth_code', code)
     return true
   }
 
-  getAuthCode () {
+  getAuthCode() {
     let codeValue = window.sessionStorage.getItem('auth_code')
     if (!codeValue) return ''
     return codeValue
   }
 
-  removeAuthCode () {
+  removeAuthCode() {
     window.sessionStorage.removeItem('auth_code')
   }
 
-  removeUrlCodeQuery () {
+  removeUrlCodeQuery() {
     let location = window.location
     let search = location.search
     if (search) {
@@ -71,21 +74,21 @@ class WeChatAuth {
     window.location.href = href
   }
 
-  setAccessToken (accessToken) {
+  setAccessToken(accessToken) {
     if (!accessToken) return false
     window.sessionStorage.setItem('access_token', accessToken)
     return true
   }
 
-  getAccessToken () {
+  getAccessToken() {
     return window.sessionStorage.getItem('access_token')
   }
 
-  removeAccessToken () {
+  removeAccessToken() {
     window.sessionStorage.removeItem('access_token')
   }
 
-  next (next) {
+  next(next) {
     let self = this
     return (accessToken, to) => {
       if (accessToken) {
@@ -101,8 +104,8 @@ class WeChatAuth {
     }
   }
 
-  getCodeCallback (next) {
-    return this.config.getCodeCallback(this.getAuthCode(), this.next(next))
+  getCodeCallback(next) {
+    return this.config.getCodeCallback(this.getAuthCode(), this.next(next), window.sessionStorage.getItem('redirect_path'))
   }
 }
 
